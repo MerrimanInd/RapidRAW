@@ -21,6 +21,7 @@ mod preset_converter;
 mod raw_processing;
 mod tagging;
 mod tagging_utils;
+mod xmp;
 
 use log;
 use std::collections::{HashMap, hash_map::DefaultHasher};

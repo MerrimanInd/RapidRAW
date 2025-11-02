@@ -556,6 +556,18 @@ export default function SettingsPanel({
               </SettingItem>
 
               <SettingItem
+                label="Read Sidecar Data"
+                description="Read star rating, color flag, and tags from other image editors/ingest sidecar files."
+              >
+                <Switch
+                  checked={appSettings?.enableXmpReading ?? false}
+                  id="xmp-reading-toggle"
+                  label="Read XMP Files"
+                  onChange={(checked) => onSettingsChange({ ...appSettings, enableXmpReading: checked })}
+                />
+              </SettingItem>
+              
+              <SettingItem
                 description="Enables or disables transparency effects for the application window. Relaunch required."
                 label="Window Effects"
               >

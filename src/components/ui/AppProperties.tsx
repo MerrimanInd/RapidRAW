@@ -129,6 +129,7 @@ export interface AppSettings {
   decorations?: any;
   enableAiTagging?: boolean;
   enableExifReading?: boolean;
+  enableXmpReading?: boolean;
   filterCriteria?: FilterCriteria;
   lastFolderState?: any;
   pinnedFolders?: any;

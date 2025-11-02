@@ -41,6 +41,7 @@ use crate::image_processing::{
 use crate::mask_generation::{MaskDefinition, generate_mask_bitmap};
 use crate::preset_converter;
 use crate::tagging::COLOR_TAG_PREFIX;
+use crate::xmp;
 
 const THUMBNAIL_WIDTH: u32 = 640;
 
@@ -509,6 +510,13 @@ pub fn get_sidecar_path(image_path: &str) -> PathBuf {
     let path = PathBuf::from(image_path);
     let original_filename = path.file_name().unwrap_or_default().to_string_lossy();
     let new_filename = format!("{}.rrdata", original_filename);
+    path.with_file_name(new_filename)
+}
+
+pub fn get_xmp_sidecar_path(image_path: &str) -> PathBuf {
+    let path = PathBuf::from(image_path);
+    let original_filename = path.file_name().unwrap_or_default().to_string_lossy();
+    let new_filename = format!("{}.xmp", original_filename);
     path.with_file_name(new_filename)
 }
 
@@ -1459,9 +1467,15 @@ pub fn set_color_label_for_paths(paths: Vec<String>, color: Option<String>) -> R
 #[tauri::command]
 pub fn load_metadata(path: String) -> Result<ImageMetadata, String> {
     let sidecar_path = get_sidecar_path(&path);
+    let xmp_sidecar_path = get_xmp_sidecar_path(&path);
     if sidecar_path.exists() {
         let file_content = std::fs::read_to_string(sidecar_path).map_err(|e| e.to_string())?;
         serde_json::from_str(&file_content).map_err(|e| e.to_string())
+    } else if xmp_sidecar_path.exists() {
+        let file_content = std::fs::read_to_string(sidecar_path).map_err(|e| e.to_string())?;
+        let mut metadata = ImageMetadata::default();
+        metadata.rating = xmp::extract_rating(&file_content).unwrap_or(String::from("0")).parse().unwrap();
+        Ok(metadata)
     } else {
         Ok(ImageMetadata::default())
     }

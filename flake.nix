@@ -141,14 +141,13 @@
           cargoRoot = "src-tauri";
           buildAndTestSubdir = finalAttrs.cargoRoot;
 
-          # TODO: replace after the first build prints the real hash.
           # (Git deps rawler + gphoto2/gphoto2-sys are handled by fetchCargoVendor.)
-          cargoHash = lib.fakeHash;
+          cargoHash = "sha256-c/GODonOcrPUTt4Q7gePVw0zvgG55mGmcDfSuxS6ric=";
 
           npmDeps = pkgs.fetchNpmDeps {
             name = "${finalAttrs.pname}-${finalAttrs.version}-npm-deps";
             inherit (finalAttrs) src;
-            hash = lib.fakeHash; # TODO
+            hash = "sha256-P1YT5agK1hMVpe7pLXkWrK99g/uAA46ovF+mUe+xVhk=";
           };
 
           postPatch = ''

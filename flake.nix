@@ -175,6 +175,7 @@
 
           env = {
             RUSTONIG_SYSTEM_LIBONIG = true;
+            ORT_SKIP_DOWNLOAD = true;
           };
 
           # `cargo tauri build -- --features tethering`
